@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简工作台 | Minimalist Dashboard</title>
+    <style>
+        /* CSS 变量：Apple 风格 */
+        :root {
+            --bg-color: #f5f5f7; 
+            --text-dark: #1d1d1f; 
+            --text-sub: #86868b; 
+            --link-color: #0071e3; 
+            --card-bg: #ffffff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05); 
+            --border-radius: 12px;
+            --max-width: 980px; 
+            --love-color: #ff5c9d; 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 0; 
+        }
+
+        /* ----------------------- 头部和搜索区 ----------------------- */
+        .header-section { width: 100%; background: var(--card-bg); border-bottom: 1px solid #e5e5e5; padding: 30px 0; margin-bottom: 40px; }
+        .header-content { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; text-align: center; }
+        h1 { font-weight: 700; font-size: 3.2rem; letter-spacing: -0.05em; margin-bottom: 8px; }
+        #clock { font-size: 1.2rem; color: var(--text-sub); font-weight: 400; }
+        .search-container { width: 100%; max-width: 600px; margin: 0 auto 50px auto; position: relative; padding: 0 20px; }
+        .search-box { width: 100%; height: 54px; border-radius: var(--border-radius); border: 1px solid #dcdcdc; padding: 0 20px 0 50px; font-size: 17px; outline: none; background: var(--card-bg); color: var(--text-dark); box-shadow: var(--shadow); transition: border-color 0.2s; }
+        .search-box:focus { border-color: var(--link-color); box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2); }
+        .search-icon { position: absolute; left: 35px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; fill: var(--text-sub); }
+        
+        /* ----------------------- 主内容布局 ----------------------- */
+        .main-content { max-width: var(--max-width); margin: 0 auto; padding: 0 20px 50px 20px; }
+        .nav-section { margin-bottom: 60px; }
+        .section-title { font-size: 1.8rem; font-weight: 600; margin-bottom: 25px; padding-bottom: 5px; color: var(--text-dark); }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+        .link-item { background: var(--card-bg); border-radius: var(--border-radius); padding: 20px; text-decoration: none; color: var(--text-dark); transition: all 0.2s ease; display: flex; flex-direction: column; align-items: flex-start; box-shadow: var(--shadow); border: 1px solid #ebebeb; }
+        .link-item:hover { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); border-color: #dcdcdc; }
+        .link-icon { font-size: 28px; margin-bottom: 15px; color: var(--link-color); width: 100%; text-align: left; }
+        .link-name { font-weight: 600; font-size: 1.0rem; margin-bottom: 5px; }
+        .link-description { font-size: 0.85rem; color: var(--text-sub); }
+
+        /* ----------------------- 恋爱纪念日模块 ----------------------- */
+        #anniversary-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        #anniversary-card {
+            background-color: #fff0f5; 
+            border: 1px solid #ffadd2;
+            cursor: pointer; 
+            text-align: center;
+            transition: all 0.3s ease;
+            user-select: none;
+            padding: 30px 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .anniversary-title { 
+            color: var(--love-color);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        #anniversary-days-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        #anniversary-days {
+            font-size: 4.5rem; /* 增大天数 */
+            font-weight: 800;
+            color: var(--love-color);
+            line-height: 1.1;
+        }
+
+        #anniversary-days-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--love-color);
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        #anniversary-timer {
+            font-size: 1.8rem; /* 时分秒计时器 */
+            font-weight: 400;
+            color: var(--text-sub);
+        }
+        
+        /* 彩蛋信息 */
+        #easter-egg {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--love-color);
+            min-height: 25px; 
+        }
+        #easter-egg:empty {
+            color: transparent;
+        }
+
+        /* 手机适配 */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            #anniversary-days { font-size: 3.5rem; }
+            #anniversary-timer { font-size: 1.4rem; }
+            #anniversary-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <div class="header-content">
+            <h1 id="greeting">Welcome.</h1>
+            <div id="clock">00:00:00</div>
+        </div>
+    </div>
+    
+    <div class="search-container">
+        <form id="searchForm" onsubmit="handleSearch(event)">
+            <svg class="search-icon" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            <input type="text" class="search-box" id="searchInput" placeholder="搜索一下，为你找到你需要的一切..." required>
+        </form>
+    </div>
+
+    <div class="main-content">
+
+        <div id="anniversary-section">
+            <div id="anniversary-card">
+                <div class="anniversary-title">💖 恋爱纪念日：我和孙文玲</div>
+                <div id="anniversary-days-container">
+                    <div id="anniversary-days">0</div>
+                    <div id="anniversary-days-label">天</div>
+                </div>
+                <div id="anniversary-timer">00:00:00</div>
+                <div id="easter-egg"></div>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <h2 class="section-title">工具箱 (Workspace)</h2>
+            <div class="category-grid">
+                <a href="https://mail.google.com" target="_blank" class="link-item">
+                    <span class="link-icon">📧</span>
+                    <span class="link-name">邮箱中心</span>
+                    <span class="link-description">快速处理收件箱事务。</span>
+                </a>
+                 <a href="https://www.notion.so" target="_blank" class="link-item">
+                    <span class="link-icon">📝</span>
+                    <span class="link-name">笔记与文档</span>
+                    <span class="link-description">个人知识管理系统入口。</span>
+                </a>
+                <a href="https://github.com" target="_blank" class="link-item">
+                    <span class="link-icon">🧑‍💻</span>
+                    <span class="link-name">代码仓库</span>
+                    <span class="link-description">访问所有项目代码。</span>
+                </a>
+                <a href="https://www.figma.com" target="_blank" class="link-item">
+                    <span class="link-icon">🖌️</span>
+                    <span class="link-name">设计原型</span>
+                    <span class="link-description">UI/UX 设计文件。</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ----------------------------------------------------
+        // 1. 恋爱纪念日情话列表 (彩蛋)
+        // ----------------------------------------------------
+        
+        let loveQuotes = [
+            "在我这里，你永远是例外，永远是偏爱。",
+            "所有美好的，都与你环环相扣，包括时间本身。",
+            "如果时间可以暂停，我希望是在你对我微笑的那一刻。",
+            "你知道我最喜欢的人是谁吗？是下一秒的你。",
+            "遇到你之后，我所有的计划里，都有了一个你。",
+            "你不用做太阳，你做我的光就好，我永远向着你。",
+            "从今往后，我们不是搭伙过日子，是灵魂作伴，浪漫至死。",
+            "世界很大，但我的心很小，只够装下你一个人。",
+        ];
+        let displayedQuoteIndices = [];
+        let clickCount = 0;
+        const ANNIVERSARY_DATE = new Date('2022-12-18T00:00:00'); // 精确到秒的起始时间
+        const anniversaryCard = document.getElementById('anniversary-card');
+        const easterEggElement = document.getElementById('easter-egg');
+
+
+        // ----------------------------------------------------
+        // 2. 核心功能函数
+        // ----------------------------------------------------
+
+        // A. 实时时钟
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const date = `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`;
+            
+            let greetingText = '';
+            if (hours < 10) greetingText = 'Good Morning. 早上好。';
+            else if (hours < 18) greetingText = 'Good Afternoon. 下午好。';
+            else greetingText = 'Good Evening. 晚上好。';
+
+            document.getElementById('greeting').innerText = greetingText;
+            document.getElementById('clock').innerText = `${date} | ${String(hours).padStart(2, '0')}:${minutes}`;
+        }
+
+        // B. 纪念日精确计时器 (天/时/分/秒)
+        function updateAnniversary() {
+            const now = new Date();
+            // 计算总毫秒差
+            let diffMs = now.getTime() - ANNIVERSARY_DATE.getTime(); 
+
+            if (diffMs < 0) diffMs = 0; 
+
+            // 常量
+            const msInDay = 1000 * 60 * 60 * 24;
+            const msInHour = 1000 * 60 * 60;
+            const msInMinute = 1000 * 60;
+            const msInSecond = 1000;
+
+            // 计算天数并更新剩余毫秒数
+            const days = Math.floor(diffMs / msInDay);
+            diffMs %= msInDay;
+
+            // 计算小时数并更新剩余毫秒数
+            const hours = Math.floor(diffMs / msInHour);
+            diffMs %= msInHour;
+
+            // 计算分钟数并更新剩余毫秒数
+            const minutes = Math.floor(diffMs / msInMinute);
+            diffMs %= msInMinute;
+
+            // 计算秒数
+            const seconds = Math.floor(diffMs / msInSecond);
+
+            // 更新 HTML
+            document.getElementById('anniversary-days').innerText = days;
+            document.getElementById('anniversary-timer').innerText = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // C. 彩蛋逻辑
+        function handleAnniversaryClick() {
+            clickCount++;
+            easterEggElement.innerText = '';
+            
+            if (clickCount === 5) {
+                // 确保情话不重复
+                if (displayedQuoteIndices.length === loveQuotes.length) {
+                    displayedQuoteIndices = [];
+                }
+                
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * loveQuotes.length);
+                } while (displayedQuoteIndices.includes(randomIndex));
+
+                displayedQuoteIndices.push(randomIndex);
+                easterEggElement.innerText = loveQuotes[randomIndex];
+                
+                clickCount = 0; 
+                
+            } else if (clickCount > 0) {
+                 const remaining = 5 - clickCount;
+                 if (remaining > 0) {
+                     easterEggElement.innerText = `偷偷告诉你，还差 ${remaining} 次点击...`;
+                 }
+            }
+        }
+        
+        // D. 搜索功能
+        function handleSearch(event) {
+            event.preventDefault(); 
+            const query = document.getElementById('searchInput').value;
+            if (query) {
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+                document.getElementById('searchInput').value = '';
+            }
+        }
+
+
+        // ----------------------------------------------------
+        // 3. 初始化
+        // ----------------------------------------------------
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // 初始化时钟和纪念日计时器，并设置每秒更新
+            updateClock();
+            updateAnniversary();
+            setInterval(updateClock, 1000);
+            setInterval(updateAnniversary, 1000);
+            
+            // 绑定纪念日点击事件
+            anniversaryCard.addEventListener('click', handleAnniversaryClick);
+        });
+    </script>
+</body>
+</html>
