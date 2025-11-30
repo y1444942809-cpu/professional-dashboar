@@ -142,7 +142,7 @@
             <svg class="search-icon" viewBox="0 0 24 24">
                 <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
             </svg>
-            <input type="text" class="search-box" id="searchInput" placeholder="搜索一下，为你找到你需要的一切..." required>
+            <input type="text" class="search-box" id="searchInput" placeholder="搜索一下，为你找到需要的一切..." required>
         </form>
     </div>
 
@@ -150,7 +150,7 @@
 
         <div id="anniversary-section">
             <div id="anniversary-card">
-                <div class="anniversary-title">💖 恋爱纪念日：我和孙文玲</div>
+                <div class="anniversary-title">💖 恋爱纪念日：I and YOU</div>
                 <div id="anniversary-days-container">
                     <div id="anniversary-days">0</div>
                     <div id="anniversary-days-label">天</div>
@@ -163,7 +163,7 @@
         <div class="nav-section">
             <h2 class="section-title">工具箱 (Workspace)</h2>
             <div class="category-grid">
-                <a href="https://mail.google.com" target="_blank" class="link-item">
+                <a href="https://mail.qq.com/" target="_blank" class="link-item">
                     <span class="link-icon">📧</span>
                     <span class="link-name">邮箱中心</span>
                     <span class="link-description">快速处理收件箱事务。</span>
@@ -298,7 +298,7 @@
             event.preventDefault(); 
             const query = document.getElementById('searchInput').value;
             if (query) {
-                window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+                window.open(`https://www.bing.com/search?q=${encodeURIComponent(query)}`, '_blank');
                 document.getElementById('searchInput').value = '';
             }
         }
@@ -320,4 +320,5 @@
         });
     </script>
 </body>
+
 </html>
